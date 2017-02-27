@@ -36,8 +36,10 @@ public class NoteScreen extends AppCompatActivity {
                 return true;
             case R.id.action_save:
                 Toast.makeText(NoteScreen.this,"Save",Toast.LENGTH_LONG).show();
+                //Put logic for saving the file here
                 break;
             case R.id.action_delete:
+                Toast.makeText(NoteScreen.this, "Delete (Ignore Icon)", Toast.LENGTH_LONG).show();
                 break;
             default:
                 return true;
