@@ -12,7 +12,11 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = new Intent(Splash.this, MainActivity.class);
+        startActivity(i);
+        finish();
 
+        /*
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -22,7 +26,7 @@ public class Splash extends AppCompatActivity {
             }
         };
         Timer op = new Timer();
-        op.schedule(task, 3000);
+        op.schedule(task, 3000);*/
 
 
     }

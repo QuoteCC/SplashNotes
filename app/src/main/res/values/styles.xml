@@ -13,6 +13,9 @@
     <style name="NoBar" parent="Theme.AppCompat.NoActionBar"
         windowActionBar = "false">
 
+
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:colorForeground">@color/white</item>
     </style>
 
 </resources>

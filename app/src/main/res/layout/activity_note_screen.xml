@@ -22,9 +22,11 @@
         android:layout_below="@id/toolbar">
         <!-- THIS IS THE EDIT TEXT-->
         <EditText
+            android:layout_marginTop="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id = "@+id/noteBody"/>
+            android:id = "@+id/noteBody"
+            android:background="@color/white"/>
     </ScrollView>
 
 </RelativeLayout>
