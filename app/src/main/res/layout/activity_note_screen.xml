@@ -18,7 +18,8 @@
     <!--Make sure that the Scrollview is below the toolbar and any buttons -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
         <!-- THIS IS THE EDIT TEXT-->
         <EditText
             android:layout_width="match_parent"
