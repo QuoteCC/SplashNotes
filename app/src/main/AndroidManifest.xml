@@ -20,7 +20,8 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".NoteScreen"></activity>
+        <activity android:name=".NoteScreen"
+            android:theme="@style/NoBar"></activity>
     </application>
 
 </manifest>

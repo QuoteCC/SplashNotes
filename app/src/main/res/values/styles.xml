@@ -10,5 +10,9 @@
     <style name="splashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splsh</item>
     </style>
+    <style name="NoBar" parent="Theme.AppCompat.NoActionBar"
+        windowActionBar = "false">
+
+    </style>
 
 </resources>
