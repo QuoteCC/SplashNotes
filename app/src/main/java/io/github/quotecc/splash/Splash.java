@@ -12,7 +12,7 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent i = new Intent(Splash.this, NoteScreen.class);
+        Intent i = new Intent(Splash.this, MainActivity.class);
         startActivity(i);
         finish();
 

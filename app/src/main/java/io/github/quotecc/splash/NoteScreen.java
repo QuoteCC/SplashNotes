@@ -1,24 +1,31 @@
 package io.github.quotecc.splash;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 
 public class NoteScreen extends AppCompatActivity {
 
+    private EntryDataSource eds;
+
     EditText e;
     Toolbar stylBar;
+    final String fileName = "splashNotes";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_screen);
+        eds = new EntryDataSource(this);
 
         stylBar = (Toolbar) findViewById(R.id.toolbar);
         stylBar.setTitle("FILE NAME"); //Limit the num of chars here, to prevent removing bar opts
@@ -46,12 +53,12 @@ public class NoteScreen extends AppCompatActivity {
             case R.id.action_save:
                 String s = stylBar.getTitle()+", "+e.getText().toString();
                 Toast.makeText(NoteScreen.this,s,Toast.LENGTH_LONG).show();
-                BufferedWriter bufW = null;
+
                 try{
-                    FileOutputStream opnFile = openFileOutput("splashNotes", MODE_WORLD_WRITEABLE);
+                    FileOutputStream opnFile = openFileOutput(fileName, Context.MODE_PRIVATE);
                 }
                 catch (Exception e){
-
+                    Log.d("DEBUG", "Error opening file");
                 }
 
                 //Put logic for saving the file here

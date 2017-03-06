@@ -4,5 +4,6 @@
     <string name="settings">Settings</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="strt">Take A Note</string>
 
 </resources>
