@@ -19,7 +19,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/NoBar" />
         <activity android:name=".NoteScreen"
             android:theme="@style/NoBar"></activity>
     </application>

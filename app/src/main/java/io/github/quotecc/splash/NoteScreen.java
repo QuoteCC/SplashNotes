@@ -20,15 +20,20 @@ public class NoteScreen extends AppCompatActivity {
 
     EditText e;
     Toolbar stylBar;
+    String title;
     final String fileName = "splashNotes";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_screen);
-        eds = new EntryDataSource(this);
+
+
+        title = getIntent().getStringExtra("title");
+
+
 
         stylBar = (Toolbar) findViewById(R.id.toolbar);
-        stylBar.setTitle("FILE NAME"); //Limit the num of chars here, to prevent removing bar opts
+        stylBar.setTitle(title); //Limit the num of chars here, to prevent removing bar opts
         setSupportActionBar(stylBar);
 
         e = (EditText) findViewById(R.id.noteBody);
