@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         lstVw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent i = new Intent(MainActivity.this,NoteScreen.class);
+                i.putExtra("title", vals.get(position).getTitle());
+                startActivity(i);
             }
         });
 
@@ -139,11 +142,39 @@ public class MainActivity extends AppCompatActivity {
                 build.show();
                 break;
             case R.id.action_delete:
+
+                List<Entry> vals2 = eds.getAllEntries();
+                if (!vals.equals(vals2)){
+                    vals = vals2;
+                    adapt.clear();
+                    adapt.addAll(vals);
+                    adapt.notifyDataSetChanged();
+                }
+
                 break;
             default:
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onPause(){
+        eds.close();
+        super.onPause();
+    }
+    @Override
+    public void onResume(){
+        eds.open();
+        List<Entry> vals2 = eds.getAllEntries();
+        if (!vals.equals(vals2)){
+            vals = vals2;
+            adapt.clear();
+            adapt.addAll(vals);
+            adapt.notifyDataSetChanged();
+        }
+        super.onResume();
+    }
+
 
 }

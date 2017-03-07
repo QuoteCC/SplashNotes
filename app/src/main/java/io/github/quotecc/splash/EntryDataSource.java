@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,8 @@ public class EntryDataSource {
         values.put(DBHelper.COLUMN_NAME_TITLE, title);
         values.put(DBHelper.COLUMN_NAME_CONTENT, content);
         long insertId = db.insert(DBHelper.TABLE_NOTES, null, values);
-        Cursor cursor = db.query(DBHelper.TABLE_NOTES, allColumns, DBHelper.COLUMN_NAME_TITLE + " = " + title, null, null, null, null );
+        String[] s = {title};
+        Cursor cursor = db.query(DBHelper.TABLE_NOTES, allColumns, DBHelper.COLUMN_NAME_TITLE + " = ?",s , null, null, null );
         cursor.moveToFirst();
         Entry e = cursorToEntry(cursor);
         cursor.close();
@@ -42,8 +44,9 @@ public class EntryDataSource {
     }
 
     public void deleteEntry(Entry e){
-        String title = e.getTitle();
-        db.delete(DBHelper.TABLE_NOTES, DBHelper.COLUMN_NAME_TITLE + " = " + title, null);
+        String[] title = {e.getTitle()};
+
+        db.delete(DBHelper.TABLE_NOTES, DBHelper.COLUMN_NAME_TITLE + " = ?", title);
     }
     public List<Entry> getAllEntries(){
         List<Entry> ents = new ArrayList<Entry>();
@@ -56,6 +59,21 @@ public class EntryDataSource {
         }
         cursor.close();
         return ents;
+    }
+    public int updateEntry(Entry e){
+        ContentValues c = new ContentValues();
+        c.put(DBHelper.COLUMN_NAME_CONTENT,e.getContent());
+        String[] s = {e.getTitle()};
+        int effect = db.update(DBHelper.TABLE_NOTES,c,DBHelper.COLUMN_NAME_TITLE + " = ?", s);
+        Log.d("Effect", effect + " Rows effected"); //THIS SHOULD ALLLLLWAYS BE ONE
+        return effect;
+    }
+
+    public Cursor queryEntry(String e){
+        String[] args = {e};
+        Cursor c = db.query(DBHelper.TABLE_NOTES,allColumns,DBHelper.COLUMN_NAME_TITLE + " = ?" , args, null, null, null, "1");
+        return c;
+
     }
     private Entry cursorToEntry(Cursor cursor){
         Entry e = new Entry();

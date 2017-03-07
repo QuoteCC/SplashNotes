@@ -8,6 +8,12 @@ public class Entry {
     private String title;
     private String content;
 
+    public Entry(){}
+
+    public Entry(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
     public String getTitle(){
         return title;
     }
@@ -26,5 +32,9 @@ public class Entry {
     private String[] getAll(){
         String[] s = {getTitle(),getContent()};
         return s;
+    }
+    @Override
+    public String toString(){
+        return getTitle();
     }
 }

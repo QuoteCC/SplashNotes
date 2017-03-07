@@ -1,6 +1,11 @@
 package io.github.quotecc.splash;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,15 +23,18 @@ public class NoteScreen extends AppCompatActivity {
 
     private EntryDataSource eds;
 
+
     EditText e;
     Toolbar stylBar;
     String title;
-    final String fileName = "splashNotes";
+    boolean created; //represents whether the current note is already in the db
+
+    //final String fileName = "splashNotes";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_screen);
-
+        created = false;
 
         title = getIntent().getStringExtra("title");
 
@@ -39,6 +47,18 @@ public class NoteScreen extends AppCompatActivity {
         e = (EditText) findViewById(R.id.noteBody);
 
 
+        eds = new EntryDataSource(this);
+        eds.open();
+        Cursor c = eds.queryEntry(title);
+        if (c.getCount() >= 1){
+            created = true;
+            //If the cursor isn't null, means theres already an entry w/ that title
+            c.moveToFirst();
+            e.setText(c.getString(1));
+        }
+
+        //eds.close();
+
     }
 
     @Override
@@ -49,7 +69,7 @@ public class NoteScreen extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-
+        //eds.open();
         int id = item.getItemId();
 
         switch (id){
@@ -58,22 +78,52 @@ public class NoteScreen extends AppCompatActivity {
             case R.id.action_save:
                 String s = stylBar.getTitle()+", "+e.getText().toString();
                 Toast.makeText(NoteScreen.this,s,Toast.LENGTH_LONG).show();
-
-                try{
-                    FileOutputStream opnFile = openFileOutput(fileName, Context.MODE_PRIVATE);
+                if (created){ //update
+                    Log.d("updte", eds.updateEntry(new Entry(title, e.getText().toString()))+" Entries changed");
                 }
-                catch (Exception e){
-                    Log.d("DEBUG", "Error opening file");
+                else{ //create
+                    Entry en = eds.createEntry(title, e.getText().toString());
+                    Log.d("crete", en.toString());
                 }
 
-                //Put logic for saving the file here
+
+
                 break;
             case R.id.action_delete:
-                Toast.makeText(NoteScreen.this, "Delete (Ignore Icon)", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder build = new AlertDialog.Builder(NoteScreen.this);
+                build.setTitle("Delete?");
+
+                build.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        eds.deleteEntry(new Entry(title, e.getText().toString()));
+                        Toast.makeText(NoteScreen.this, "Item Deleted from Notes", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                });
+                build.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                build.show();
+
+
+
+                //Toast.makeText(NoteScreen.this, "Delete (Ignore Icon)", Toast.LENGTH_LONG).show();
                 break;
             default:
+                //eds.close();
                 return true;
         }
+        //eds.close();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPause(){
+        eds.close();
+        super.onPause();
     }
 }
