@@ -76,7 +76,7 @@ public class NoteScreen extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case R.id.action_save:
-                String s = stylBar.getTitle()+", "+e.getText().toString();
+                String s = stylBar.getTitle()+ " Saved";
                 Toast.makeText(NoteScreen.this,s,Toast.LENGTH_LONG).show();
                 if (created){ //update
                     Log.d("updte", eds.updateEntry(new Entry(title, e.getText().toString()))+" Entries changed");
