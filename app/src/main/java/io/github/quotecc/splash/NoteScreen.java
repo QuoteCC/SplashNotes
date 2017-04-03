@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,8 +42,11 @@ public class NoteScreen extends AppCompatActivity {
 
 
         stylBar = (Toolbar) findViewById(R.id.toolbar);
+
         stylBar.setTitle(title); //Limit the num of chars here, to prevent removing bar opts
         setSupportActionBar(stylBar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         e = (EditText) findViewById(R.id.noteBody);
 
@@ -74,6 +78,9 @@ public class NoteScreen extends AppCompatActivity {
 
         switch (id){
             case R.id.action_settings:
+                return true;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.action_save:
                 String s = stylBar.getTitle()+ " Saved";
